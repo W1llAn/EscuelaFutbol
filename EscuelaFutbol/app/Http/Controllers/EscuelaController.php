@@ -176,4 +176,12 @@ class EscuelaController extends Controller
             return redirect('/Escuela/horarios');
         }
     }
+
+    public function eliminarCategoria($id)
+    {
+        Http::delete(static::$api . '?action=categorias&id=' . $id);
+
+        return redirect()->route('categorias.index')
+                         ->with('success', 'Categoría eliminada correctamente.');
+    }
 }
