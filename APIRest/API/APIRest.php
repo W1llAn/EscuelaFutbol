@@ -13,7 +13,12 @@ switch ($opc) {
             case 'horario':
                 metodosHorarios::obtenerHorario();
                 break;
-
+            case 'entrenadores':
+                metodosHorarios::obtenerEntrenadores();
+                break;
+            case 'canchas':
+                metodosHorarios::obtenerCanchas();
+                break;
             default:
                 # code...
                 break;
@@ -22,8 +27,7 @@ switch ($opc) {
         #CREAR
     case 'POST':
         switch ($action) {
-            case 'horario':
-                metodosHorarios::crearHorario();
+            case '':
                 break;
 
             default:
