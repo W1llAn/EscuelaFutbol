@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/inicio', function () {
     return view('welcome');
 });
+
 Route::get('Escuela',[EscuelaController::class,'index']);
 Route::get('Escuela/InscripcionesYpagos',[EscuelaController::class,'InscripcionesYpagos']);
 Route::get('Escuela/InscripcionesYpagos/Inscripciones',[EscuelaController::class,'Inscripciones']);
@@ -23,4 +24,9 @@ Route::post('Escuela/InscripcionesYpagos',[EscuelaController::class,'guardarInsc
 Route::delete('Escuela/InscripcionesYpagos/{id} {type}',[EscuelaController::class,'eliminarInscripcion']);
 
 Route::get('Escuela/InscripcionesYpagos/{nombre} {type}', [EscuelaController::class,'buscar']);
+
+
+Route::get('/Escuela/horarios', [EscuelaController::class, 'horarios']);
+Route::delete("/Escuela/horarios/{id} {horario}", [EscuelaController::class, 'destroy']);
+Route::put("/Escuela/horarios/{id} {horario} /edit", [EscuelaController::class, 'update']);
 
