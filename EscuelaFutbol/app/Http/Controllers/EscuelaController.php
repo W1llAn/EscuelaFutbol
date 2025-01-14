@@ -63,6 +63,18 @@ class EscuelaController extends Controller
         return view('categorias.create', compact('entrenadoresArray', 'canchasArray'));
     }
 
+    public function guardarCategoria(Request $request)
+    {
+        $data = $request->only([
+            'nombre', 'dia_entrenamiento', 'hora_inicio', 'hora_fin', 'id_cancha', 'id_entrenador'
+        ]);
+
+        $response = Http::post(static::$api . '?action=categoria', $data);
+
+        return redirect()->route('categorias.index')
+                         ->with('success', 'Categoría creada correctamente.');
+    }
+
 
     /**
      * Store a newly created resource in storage.
