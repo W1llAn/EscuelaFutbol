@@ -3,8 +3,8 @@ class Conexion
 {
     public static function conectar()
     {
-        define("serverName", "localhost");
-        define("user", "rooot");
+        define("serverName", "localhost:3387");
+        define("user", "root");
         define("password", "");
         define("db", "academiafut");
         try {
@@ -14,4 +14,5 @@ class Conexion
             echo "Error al conectar a la base de datos" . $th;
         }
     }
+    
 }
