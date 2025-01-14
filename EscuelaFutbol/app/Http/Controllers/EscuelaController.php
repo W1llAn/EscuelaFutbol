@@ -51,6 +51,18 @@ class EscuelaController extends Controller
         return view('categorias.index', compact('categoriasArray'));
     }
 
+    public function crearCategoria()
+    {
+        // Obtiene entrenadores y canchas para llenar los selects
+        $entrenadores = Http::GET(static::$api . '?action=entrenadores');
+        $entrenadoresArray = $entrenadores->json();
+
+        $canchas = Http::GET(static::$api . '?action=canchas');
+        $canchasArray = $canchas->json();
+
+        return view('categorias.create', compact('entrenadoresArray', 'canchasArray'));
+    }
+
 
     /**
      * Store a newly created resource in storage.
