@@ -90,6 +90,19 @@ class EscuelaController extends Controller
         return view('categorias.edit', compact('categoria', 'entrenadoresArray', 'canchasArray'));
     }
 
+    public function actualizarCategoria(Request $request, $id)
+    {
+        $data = $request->only([
+            'nombre', 'dia_entrenamiento', 'hora_inicio', 'hora_fin', 'id_cancha', 'id_entrenador'
+        ]);
+
+        $data['id'] = $id;
+        Http::asForm()->put(static::$api . '?action=categorias', $data);
+
+        return redirect()->route('categorias.index')
+                         ->with('success', 'Categoría actualizada correctamente.');
+    }
+
 
     /**
      * Store a newly created resource in storage.
