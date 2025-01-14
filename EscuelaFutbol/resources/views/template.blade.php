@@ -18,11 +18,11 @@
 
     <nav>
         <ul>
-            <li><a href="{{ url('Escuela') }} " class="{{Request::is('Escuela')?'active':''}}" >Inicio</a></li>
+            <li><a href="{{ url('Escuela') }} " class="{{Request::is('Escuela')?'active':''}}">Inicio</a></li>
             <li><a href="{{url('Escuela/create')}}" class="{{Request::is('Escuela/create')?'active':''}}">Inscripciones</a></li>
-            <li><a href="" class="{{Request::is('Escuela/Equipos')?'Active':''}}" >Equipos</a></li>
+            <li><a href="" class="{{Request::is('Escuela/Equipos')?'Active':''}}">Equipos</a></li>
             <li><a href="">Entrenadores</a></li>
-            <li><a href="">Horarios</a></li>
+            <li><a href="{{url('Escuela/horarios')}}" class="{{Request::is('Escuela/horarios')?'active':''}}">Horarios</a></li>
         </ul>
 
     </nav>
