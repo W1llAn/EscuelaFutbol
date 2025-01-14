@@ -1,5 +1,6 @@
 <?php
 include_once "../models/metodosHorarios.php";
+include_once "../models/Inscripcion.php";
 
 #OBTIENE EL MÉTODO 
 $opc = $_SERVER['REQUEST_METHOD'];
@@ -12,6 +13,15 @@ switch ($opc) {
         switch ($action) {
             case 'horario':
                 metodosHorarios::obtenerHorario();
+                break;
+            case 'obtener':
+                Inscripcion::obtener();
+                break;
+                case 'obtenerId':
+                    Inscripcion::obtenerId();
+                    break;
+            case 'obtenerNombre':
+                Inscripcion::obtenerNombre();
                 break;
             case 'entrenadores':
                 metodosHorarios::obtenerEntrenadores();
@@ -29,6 +39,9 @@ switch ($opc) {
         switch ($action) {
             case '':
                 break;
+            case 'inscripcion':
+                Inscripcion::guardar();
+                break;
 
             default:
                 # code...
@@ -41,7 +54,12 @@ switch ($opc) {
             case 'horario':
                 metodosHorarios::editarHorario();
                 break;
-
+            case 'editarEstudiante':
+                Inscripcion::editar();
+                break;
+                case 'editarEstudiantePago':
+                    Inscripcion::editarEstudiantePago();
+                    break;
             default:
                 # code...
                 break;
@@ -53,7 +71,9 @@ switch ($opc) {
             case 'horario':
                 metodosHorarios::eliminarHorario();
                 break;
-
+            case 'eliminarInscripcionId':
+                Inscripcion::borrar();
+                break;
             default:
                 # code...
                 break;
