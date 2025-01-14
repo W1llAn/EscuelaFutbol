@@ -69,10 +69,25 @@ class EscuelaController extends Controller
             'nombre', 'dia_entrenamiento', 'hora_inicio', 'hora_fin', 'id_cancha', 'id_entrenador'
         ]);
 
-        $response = Http::post(static::$api . '?action=categoria', $data);
+        $response = Http::post(static::$api . '?action=categorias', $data);
 
         return redirect()->route('categorias.index')
                          ->with('success', 'Categoría creada correctamente.');
+    }
+
+    public function editarCategoria($id)
+    {
+        // Obtiene la categoría específica
+        $categoria = Http::GET(static::$api . '?action=categorias&id=' . $id)->json();
+
+        // Obtiene entrenadores y canchas para llenar los selects
+        $entrenadores = Http::GET(static::$api . '?action=entrenadores');
+        $entrenadoresArray = $entrenadores->json();
+
+        $canchas = Http::GET(static::$api . '?action=canchas');
+        $canchasArray = $canchas->json();
+
+        return view('categorias.edit', compact('categoria', 'entrenadoresArray', 'canchasArray'));
     }
 
 
