@@ -4,7 +4,7 @@ class Conexion
     public static function conectar()
     {
         define("serverName", "localhost");
-        define("user", "rooot");
+        define("user", "root");
         define("password", "");
         define("db", "academiafut");
         try {
