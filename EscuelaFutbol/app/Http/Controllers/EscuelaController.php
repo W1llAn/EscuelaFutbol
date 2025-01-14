@@ -42,7 +42,14 @@ class EscuelaController extends Controller
         return view('horarios', compact('horariosArray', 'entrenadoresArray', 'canchasArray'));
     }
 
-    
+    public function categorias()
+    {
+        // Obtiene todas las categorías
+        $categorias = Http::GET(static::$api . '?action=categorias');
+        $categoriasArray = $categorias->json();
+
+        return view('categorias.index', compact('categoriasArray'));
+    }
 
 
     /**

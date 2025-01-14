@@ -59,11 +59,6 @@ class metodosCategorias
 
         $sql = "UPDATE categorias SET 
                 nombre = '$nombre',
-                dia_entrenamiento = '$diaEntrenamiento',
-                hora_inicio = '$horaInicio',
-                hora_fin = '$horaFin',
-                id_cancha = '$idCancha',
-                id_entrenador = '$idEntrenador'
                 WHERE id = '$id';";
         $resultado = $con->prepare($sql);
         $resultado->execute();
