@@ -1,5 +1,5 @@
 <?php
-include_once "conecixion.php";
+include_once "conexion.php";
 class metodosHorarios
 {
 
