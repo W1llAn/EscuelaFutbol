@@ -10,7 +10,7 @@ class EscuelaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    protected static $api = "http://localhost/APIRest/API/APIRest.php";
+    protected static $api = "http://localhost:8087/APIRest/API/APIRest.php";
     public function index()
     {
         return view('Inicio');
@@ -41,6 +41,8 @@ class EscuelaController extends Controller
 
         return view('horarios', compact('horariosArray', 'entrenadoresArray', 'canchasArray'));
     }
+
+    
 
 
     /**

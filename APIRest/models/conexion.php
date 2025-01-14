@@ -3,7 +3,7 @@ class Conexion
 {
     public static function conectar()
     {
-        define("serverName", "localhost");
+        define("serverName", "localhost:33065");
         define("user", "root");
         define("password", "");
         define("db", "academiafut");

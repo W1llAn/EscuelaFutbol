@@ -1,5 +1,6 @@
 <?php
 include_once "../models/metodosHorarios.php";
+include_once "../models/metodosCategorias.php";
 
 #OBTIENE EL MÉTODO 
 $opc = $_SERVER['REQUEST_METHOD'];
@@ -19,6 +20,9 @@ switch ($opc) {
             case 'canchas':
                 metodosHorarios::obtenerCanchas();
                 break;
+            case 'categorias': // Nueva acción
+                metodosCategorias::obtenerCategorias();
+                break;
             default:
                 # code...
                 break;
@@ -27,7 +31,8 @@ switch ($opc) {
         #CREAR
     case 'POST':
         switch ($action) {
-            case '':
+            case 'categorias':
+                metodosCategorias::crearCategoria();
                 break;
 
             default:
@@ -41,7 +46,9 @@ switch ($opc) {
             case 'horario':
                 metodosHorarios::editarHorario();
                 break;
-
+            case 'categorias':
+                metodosCategorias::editarCategoria();
+                break;
             default:
                 # code...
                 break;
@@ -53,7 +60,9 @@ switch ($opc) {
             case 'horario':
                 metodosHorarios::eliminarHorario();
                 break;
-
+            case 'categorias':
+                metodosCategorias::eliminarCategoria();
+                break;
             default:
                 # code...
                 break;
