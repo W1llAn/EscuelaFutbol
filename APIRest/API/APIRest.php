@@ -1,6 +1,7 @@
 <?php
 include_once "../models/metodosHorarios.php";
 include_once "../models/metodosCategorias.php";
+include_once "../models/metodosEntrenador.php";
 
 #OBTIENE EL MÉTODO 
 $opc = $_SERVER['REQUEST_METHOD'];
@@ -20,8 +21,17 @@ switch ($opc) {
             case 'canchas':
                 metodosHorarios::obtenerCanchas();
                 break;
-            case 'categorias': // Nueva acción
+            case 'categorias':
                 metodosCategorias::obtenerCategorias();
+                break;
+            case 'jugadores':
+                metodosCategorias::obtenerJugadoresPorCategoria();
+                break;
+            case 'jugadoresDisponibles':
+                metodosCategorias::obtenerJugadoresSinCategoria();
+                break;
+            case 'entrenador':
+                metodosEntrenador::obtenerEntrenadores();
                 break;
             default:
                 # code...
@@ -34,7 +44,12 @@ switch ($opc) {
             case 'categorias':
                 metodosCategorias::crearCategoria();
                 break;
-
+            case 'jugadores':
+                metodosCategorias::insertarJugadorACategoria();
+                break;
+            case 'entrenador':
+                metodosEntrenador::crearEntrenador();
+                break;
             default:
                 # code...
                 break;
@@ -49,6 +64,9 @@ switch ($opc) {
             case 'categorias':
                 metodosCategorias::editarCategoria();
                 break;
+            case 'entrenador':
+                metodosEntrenador::editarEntrenador();
+                break;
             default:
                 # code...
                 break;
@@ -62,6 +80,9 @@ switch ($opc) {
                 break;
             case 'categorias':
                 metodosCategorias::eliminarCategoria();
+                break;
+            case 'entrenador':
+                metodosEntrenador::eliminarEntrenador();
                 break;
             default:
                 # code...
