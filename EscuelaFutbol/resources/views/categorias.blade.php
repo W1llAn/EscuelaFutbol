@@ -104,6 +104,55 @@
                 </table>
             </div>
 
+            <a href="javascript:void(0)" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#asignarJugadorModal">
+            Asignar Jugador a Categoría
+            </a>
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal para asignar jugador a categoría -->
+<div class="modal fade" id="asignarJugadorModal" tabindex="-1" aria-labelledby="asignarJugadorModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="asignarJugadorModalLabel">Asignar Jugador a Categoría</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Formulario para asignar jugador -->
+                <form id="asignarJugadorForm" action="{{ route('asignarJugadorACategoria') }}" method="POST">
+                    @csrf
+
+                    <!-- Combo box para seleccionar al jugador -->
+                    <div class="mb-3">
+                        <label for="jugador" class="form-label">Seleccionar Jugador</label>
+                        <select class="form-select" id="jugador" name="jugador" required>
+                            <option value="">Seleccionar Jugador</option>
+                            @foreach($jugadroSinCategoriaArray as $jugador)
+                            <option value="{{ $jugador['id'] }}">{{ $jugador['nombre'] }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- Combo box para seleccionar la categoría -->
+                    <div class="mb-3">
+                        <label for="categoria" class="form-label">Seleccionar Categoría</label>
+                        <select class="form-select" id="categoria" name="categoria" required>
+                            <option value="">Seleccionar Categoría</option>
+                            @foreach($categoriasArray as $categoria)
+                            <option value="{{ $categoria['id'] }}">{{ $categoria['nombre'] }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-success">Asignar</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>

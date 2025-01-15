@@ -69,6 +69,22 @@ class EscuelaController extends Controller
         return view('crearCategoria', compact('entrenadoresArray', 'canchasArray'));
     }
 
+    public function asignarJugadorACategoria(Request $request)
+    {
+
+        $request->validate([
+            'jugador' => 'required|exists:jugadores,id',
+            'categoria' => 'required|exists:categorias,id',
+        ]);
+
+        $data = $request->only(['jugador', 'categoria']);
+    
+        $response = Http::post(static::$api . '?action=jugadores', $data);
+
+        return redirect('/Escuela/categorias')->with('success', 'Jugador asignado con éxito');
+    }
+    
+
     public function guardarCategoria(Request $request)
     {
         // Validar los datos del formulario
