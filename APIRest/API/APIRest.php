@@ -1,5 +1,7 @@
 <?php
 include_once "../models/metodosHorarios.php";
+include_once "../models/metodosCategorias.php";
+include_once "../models/metodosEntrenador.php";
 include_once "../models/metodosDashboard.php";
 include_once "../models/Inscripcion.php";
 
@@ -48,6 +50,18 @@ switch ($opc) {
             case 'canchas':
                 metodosHorarios::obtenerCanchas();
                 break;
+            case 'categorias':
+                metodosCategorias::obtenerCategorias();
+                break;
+            case 'jugadores':
+                metodosCategorias::obtenerJugadoresPorCategoria();
+                break;
+            case 'jugadoresDisponibles':
+                metodosCategorias::obtenerJugadoresSinCategoria();
+                break;
+            case 'entrenador':
+                metodosEntrenador::obtenerEntrenadores();
+                break;
             default:
                 # code...
                 break;
@@ -56,7 +70,14 @@ switch ($opc) {
         #CREAR
     case 'POST':
         switch ($action) {
-            case '':
+            case 'categorias':
+                metodosCategorias::crearCategoria();
+                break;
+            case 'jugadores':
+                metodosCategorias::insertarJugadorACategoria();
+                break;
+            case 'entrenador':
+                metodosEntrenador::crearEntrenador();
                 break;
             case 'inscripcion':
                 Inscripcion::guardar();
@@ -72,6 +93,12 @@ switch ($opc) {
         switch ($action) {
             case 'horario':
                 metodosHorarios::editarHorario();
+                break;
+            case 'categorias':
+                metodosCategorias::editarCategoria();
+                break;
+            case 'entrenador':
+                metodosEntrenador::editarEntrenador();
                 break;
             case 'editarEstudiante':
                 Inscripcion::editar();
@@ -90,6 +117,11 @@ switch ($opc) {
             case 'horario':
                 metodosHorarios::eliminarHorario();
                 break;
+            case 'categorias':
+                metodosCategorias::eliminarCategoria();
+                break;
+            case 'entrenador':
+                metodosEntrenador::eliminarEntrenador();
             case 'eliminarInscripcionId':
                 Inscripcion::borrar();
                 break;

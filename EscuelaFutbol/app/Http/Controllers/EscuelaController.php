@@ -78,7 +78,174 @@ class EscuelaController extends Controller
         return view('horarios', compact('horariosArray', 'entrenadoresArray', 'canchasArray'));
     }
 
+    public function categorias()
+    {
+        // Obtiene todas las categorías
+        $categorias = Http::GET(static::$api . '?action=categorias');
+        $categoriasArray = $categorias->json();
 
+        $jugadorCategoria = Http::GET(static::$api . '?action=jugadores');
+        $jugadorCategoriaArray = $jugadorCategoria->json();
+
+        $jugadroSinCategoria = Http::GET(static::$api . '?action=jugadoresDisponibles');
+        $jugadroSinCategoriaArray = $jugadroSinCategoria->json();
+
+        return view('categorias', compact('categoriasArray', 'jugadorCategoriaArray', 'jugadroSinCategoriaArray'));
+    }
+
+    public function entrenadores()
+    {
+        // Obtiene todas las categorías
+        $entrenador = Http::GET(static::$api . '?action=entrenador');
+        $entrenadorArray = $entrenador->json();
+
+        return view('entrenador', compact('entrenadorArray'));
+    }
+
+    public function crearCategoria()
+    {
+        // Obtiene entrenadores y canchas para llenar los selects
+        $entrenadores = Http::GET(static::$api . '?action=entrenadores');
+        $entrenadoresArray = $entrenadores->json();
+
+        $canchas = Http::GET(static::$api . '?action=canchas');
+        $canchasArray = $canchas->json();
+
+        return view('crearCategoria', compact('entrenadoresArray', 'canchasArray'));
+    }
+
+    public function crearEntrenador(){
+        return view('crearEntrenador');
+    }
+
+    public function guardarEntrenador(Request $request)
+    {
+         // Validar los datos del formulario
+         $request->validate([
+            'nombre' => 'required|string|max:255',
+        ]);
+ 
+        $data = $request->only([
+            'nombre'
+        ]);
+    
+        $response = Http::post(static::$api . '?action=entrenador', $data);
+  
+        if ($response->successful()) {
+            return redirect('/Escuela/entrenadores')->with('success', 'Categoría creada con éxito');
+        } else {
+            // Manejar el error de forma adecuada
+            return back()->with('error', 'Error al crear la categoría');
+        }
+    }
+
+    public function actualizarEntrenador(Request $request, $id)
+    {
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+        ]);
+    
+        $data = [
+            'id' => $id,
+            'nombre' => $request->nombre,
+        ];
+    
+        $response = Http::put(static::$api . '?action=entrenador', $data);
+    
+        if ($response->successful()) {
+            return redirect('/Escuela/entrenadores')->with('success', 'Entrenador actualizado con éxito');
+        } else {
+            return back()->with('error', 'Error al actualizar el entrenador');
+        }
+    }
+    
+
+    public function asignarJugadorACategoria(Request $request)
+    {
+        $request->validate([
+            'jugador' => 'required|integer',
+            'categoria' => 'required|integer',
+        ]);        
+    
+        $data = $request->only(['jugador', 'categoria']);
+    
+        $response = Http::asForm()->post(static::$api . '?action=jugadores', $data);
+    
+        if ($response->successful()) {
+            return redirect('/Escuela/categorias')->with('success', 'Jugador asignado con éxito');
+        } else {
+            dd($response->body());
+        }
+    }
+    
+    
+
+    public function guardarCategoria(Request $request)
+    {
+        // Validar los datos del formulario
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'dia_entrenamiento' => 'required|array|min:1', 
+            'hora_inicio' => 'required|date_format:H:i',
+            'hora_fin' => 'required|date_format:H:i',
+            'id_cancha' => 'required|integer',
+            'id_entrenador' => 'required|integer',
+        ]);
+ 
+        $data = $request->only([
+            'nombre', 'dia_entrenamiento', 'hora_inicio', 'hora_fin', 'id_cancha', 'id_entrenador'
+        ]);
+    
+        $response = Http::post(static::$api . '?action=categorias', $data);
+  
+        if ($response->successful()) {
+            return redirect('/Escuela/categorias')->with('success', 'Categoría creada con éxito');
+        } else {
+            // Manejar el error de forma adecuada
+            return back()->with('error', 'Error al crear la categoría');
+        }
+    }
+
+    public function editarCategoria($id)
+    {
+        // Obtiene la categoría específica
+        $categoria = Http::GET(static::$api . '?action=categorias&id=' . $id)->json();
+    
+        // Obtiene entrenadores y canchas para llenar los selects
+        $entrenadores = Http::GET(static::$api . '?action=entrenadores');
+        $entrenadoresArray = $entrenadores->json();
+    
+        $canchas = Http::GET(static::$api . '?action=canchas');
+        $canchasArray = $canchas->json();
+    
+        return view('editarCategoria', compact('categoria', 'entrenadoresArray', 'canchasArray'));
+    }    
+
+    public function actualizarCategoria(Request $request, $id)
+    {
+       
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'dia_entrenamiento' => 'required|array',
+            'hora_inicio' => 'required|date_format:H:i',
+            'hora_fin' => 'required|date_format:H:i',
+        ]);
+    
+        $data = $request->only(['nombre', 'dia_entrenamiento', 'hora_inicio', 'hora_fin']);
+        $data['id'] = $id;
+    
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+        ])->put(static::$api . '?action=categorias', $data);
+    
+        if ($response->successful()) {
+            return redirect('/Escuela/categorias')->with('success', 'Categoría actualizada con éxito');
+        } else {
+            return back()->with('error', 'Error al actualizar la categoría');
+        }
+    }
+    
+    
     /**
      * Store a newly created resource in storage.
      */
@@ -229,6 +396,27 @@ class EscuelaController extends Controller
             return redirect('/Escuela/horarios');
         }
     }
+
+    public function eliminarCategoria($id)
+    {
+        Http::delete(static::$api . '?action=categorias&id=' . $id);
+
+        return redirect('/Escuela/categorias');
+    }
+
+    public function eliminarEntrenador($id)
+    {
+        $response = Http::delete(static::$api . '?action=entrenador', [
+            'id' => $id,
+        ]);
+    
+        if ($response->successful()) {
+            return redirect('/Escuela/entrenadores')->with('success', 'Entrenador eliminado con éxito');
+        } else {
+            return back()->with('error', 'Error al eliminar el entrenador');
+        }
+    }
+
     public function eliminarInscripcion(String $id, String $type)
     {
         if ($type === 'eliminar') {

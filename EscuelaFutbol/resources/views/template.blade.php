@@ -7,7 +7,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <title>@yield('title')</title>
     <link rel="stylesheet" href="{{ asset('css/styleTemplate.css') }}">
-
 </head>
 
 <body>
@@ -19,9 +18,13 @@
     <nav>
         <ul>
             <li><a href="{{ url('Escuela') }} " class="{{Request::is('Escuela')?'active':''}}">Inicio</a></li>
+
+            <li><a href="{{url('Escuela/create')}}" class="{{Request::is('Escuela/create')?'active':''}}">Inscripciones</a></li>
+            <li><a href="{{url('Escuela/categorias')}}" class="{{Request::is('Escuela/Equipos')?'Active':''}}">Equipos</a></li>
+            <li><a href="{{url('Escuela/entrenadores')}}" class="{{Request::is('Escuela/entrenadores')?'active':''}}">Entrenadores</a></li>
+
             <li><a href="{{url('Escuela/InscripcionesYpagos')}}" class="{{Request::is('Escuela/InscripcionesYpagos')?'active':''}}">Inscripciones/Pagos</a></li>
-            <li><a href="" class="{{Request::is('Escuela/Equipos')?'Active':''}}">Equipos</a></li>
-            <li><a href="">Entrenadores</a></li>
+
             <li><a href="{{url('Escuela/horarios')}}" class="{{Request::is('Escuela/horarios')?'active':''}}">Horarios</a></li>
         </ul>
 
