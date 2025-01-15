@@ -68,22 +68,19 @@ class EscuelaController extends Controller
         // Validar los datos del formulario
         $request->validate([
             'nombre' => 'required|string|max:255',
-            'dia_entrenamiento' => 'required|array|min:1',  // Asegurarse de que se envíen días de entrenamiento
+            'dia_entrenamiento' => 'required|array|min:1', 
             'hora_inicio' => 'required|date_format:H:i',
             'hora_fin' => 'required|date_format:H:i',
             'id_cancha' => 'required|integer',
             'id_entrenador' => 'required|integer',
         ]);
-    
-        // Recuperar los datos del formulario
+ 
         $data = $request->only([
             'nombre', 'dia_entrenamiento', 'hora_inicio', 'hora_fin', 'id_cancha', 'id_entrenador'
         ]);
     
-    
         $response = Http::post(static::$api . '?action=categorias', $data);
-    
-        // Verifica si la respuesta fue exitosa
+  
         if ($response->successful()) {
             return redirect('/Escuela/categorias')->with('success', 'Categoría creada con éxito');
         } else {
@@ -96,30 +93,42 @@ class EscuelaController extends Controller
     {
         // Obtiene la categoría específica
         $categoria = Http::GET(static::$api . '?action=categorias&id=' . $id)->json();
-
+    
         // Obtiene entrenadores y canchas para llenar los selects
         $entrenadores = Http::GET(static::$api . '?action=entrenadores');
         $entrenadoresArray = $entrenadores->json();
-
+    
         $canchas = Http::GET(static::$api . '?action=canchas');
         $canchasArray = $canchas->json();
-
+    
         return view('editarCategoria', compact('categoria', 'entrenadoresArray', 'canchasArray'));
-    }
+    }    
 
     public function actualizarCategoria(Request $request, $id)
     {
-        $data = $request->only([
-            'nombre', 'dia_entrenamiento', 'hora_inicio', 'hora_fin', 'id_cancha', 'id_entrenador'
+        // Validar los datos antes de enviarlos
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'dia_entrenamiento' => 'required|array', // Validar como un array
+            'hora_inicio' => 'required|date_format:H:i',
+            'hora_fin' => 'required|date_format:H:i',
         ]);
-
+    
+        $data = $request->only(['nombre', 'dia_entrenamiento', 'hora_inicio', 'hora_fin']);
         $data['id'] = $id;
-        Http::asForm()->put(static::$api . '?action=categorias', $data);
-
-        return redirect('/Escuela/categorias');
+    
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+        ])->put(static::$api . '?action=categorias', $data);
+    
+        if ($response->successful()) {
+            return redirect('/Escuela/categorias')->with('success', 'Categoría actualizada con éxito');
+        } else {
+            return back()->with('error', 'Error al actualizar la categoría');
+        }
     }
-
-
+    
+    
     /**
      * Store a newly created resource in storage.
      */

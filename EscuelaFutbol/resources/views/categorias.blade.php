@@ -40,8 +40,6 @@
                                     '{{ $categoria['dia_entrenamiento'] }}', 
                                     '{{ $categoria['hora_inicio'] }}', 
                                     '{{ $categoria['hora_fin'] }}', 
-                                    '{{ $categoria['cancha'] }}', 
-                                    '{{ $categoria['entrenador'] }}'
                                 )">
                                     <i class="bi bi-pencil"></i> Editar
                                 </button>
@@ -72,11 +70,11 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="editarCategoriaForm" action="{{ route('editarCategoria', '') }}" method="POST">
+                <form id="editarCategoriaForm" method="POST">
                     @method('PUT')
                     @csrf
-                    <input type="hidden" id="idCategoria" name="idCategoria">
-                    
+                    <input type="hidden" id="idCategoria" name="id">
+
                     <!-- Nombre de la categoría -->
                     <div class="mb-3">
                         <label for="categoriaNombre" class="form-label">Nombre</label>
@@ -89,7 +87,7 @@
                         <div>
                             @foreach(['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'] as $dia)
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" name="diasEntrenamiento[]" type="checkbox" id="dia_{{ $dia }}" value="{{ $dia }}">
+                                <input class="form-check-input" name="dia_entrenamiento[]" type="checkbox" id="dia_{{ $dia }}" value="{{ $dia }}">
                                 <label class="form-check-label" for="dia_{{ $dia }}">{{ $dia }}</label>
                             </div>
                             @endforeach
@@ -106,18 +104,6 @@
                         <input type="time" id="horaFin" name="hora_fin" class="form-control" required>
                     </div>
 
-                    <!-- Cancha -->
-                    <div class="mb-3">
-                        <label for="cancha" class="form-label">Cancha</label>
-                        <input type="text" id="cancha" name="cancha" class="form-control" required>
-                    </div>
-
-                    <!-- Entrenador -->
-                    <div class="mb-3">
-                        <label for="entrenador" class="form-label">Entrenador</label>
-                        <input type="text" id="entrenador" name="entrenador" class="form-control" required>
-                    </div>
-                    
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                         <button type="submit" class="btn btn-success">Guardar Cambios</button>
@@ -131,17 +117,18 @@
 <!-- Bootstrap JavaScript (con Popper.js incluido) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-
 <!-- Scripts -->
 <script>
-    function mostrarModalEditar(id, nombre, dias, horaInicio, horaFin, cancha, entrenador) {
+    function mostrarModalEditar(id, nombre, dias, horaInicio, horaFin) {
+        // Configurar la acción del formulario
+        const form = document.getElementById('editarCategoriaForm');
+        form.action = `{{ route('actualizarCategoria', ':id') }}`.replace(':id', id);
+
         // Llenar campos del formulario del modal
         document.getElementById('idCategoria').value = id;
         document.getElementById('categoriaNombre').value = nombre;
         document.getElementById('horaInicio').value = horaInicio;
         document.getElementById('horaFin').value = horaFin;
-        document.getElementById('cancha').value = cancha;
-        document.getElementById('entrenador').value = entrenador;
 
         // Marcar días seleccionados
         const diasArray = dias.split(',');
