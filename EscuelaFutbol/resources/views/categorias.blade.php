@@ -46,7 +46,13 @@
                                     <i class="bi bi-pencil"></i> Editar
                                 </button>
                                 <!-- Botón Eliminar -->
-                                
+                                <form action="{{ route('eliminarCategoria', $categoria['id']) }}" method="POST">
+                                    @method('DELETE')
+                                    @csrf
+                                    <button type="submit" class="btn btn-danger btn-sm">
+                                        <i class="bi bi-trash"></i> Eliminar
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                         @endforeach
