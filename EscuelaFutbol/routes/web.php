@@ -18,5 +18,5 @@ Route::get('/Escuela/categorias/create', [EscuelaController::class, 'crearCatego
 Route::post('/Escuela/categorias', [EscuelaController::class, 'guardarCategoria'])->name('guardarCategoria');
 Route::get('/Escuela/categorias/{id}/edit', [EscuelaController::class, 'editarCategoria'])->name('editarCategoria');
 Route::put('/Escuela/categorias/{id}', [EscuelaController::class, 'actualizarCategoria'])->name('actualizarCategoria');
-Route::post('/Escuela/categorias', [EscuelaController::class, 'asignarJugadorACategoria'])->name('asignarJugadorACategoria');
+Route::post('/Escuela/categorias/asignar', [EscuelaController::class, 'asignarJugadorACategoria'])->name('asignarJugadorACategoria');
 Route::delete('/Escuela/categorias/{id}', [EscuelaController::class, 'eliminarCategoria'])->name('eliminarCategoria');
