@@ -105,6 +105,5 @@ class metodosDashboard
         } catch (PDOException $e) {
             die("Error en la consulta: " . $e->getMessage());
         }
-        
     }
 }

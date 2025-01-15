@@ -9,7 +9,7 @@
         <label for="nombre" class="form-label">Nombre</label>
         <input type="text" name="nombre" id="nombre" class="form-control" placeholder="Nombre de la categoría" required>
     </div>
-    
+
     <div class="mb-3">
         <label for="dia_entrenamiento" class="form-label">Días de Entrenamiento</label><br>
         <div class="form-check form-check-inline">
@@ -49,7 +49,7 @@
         <select name="id_cancha" id="id_cancha" class="form-select" required>
             <option value="" disabled selected>Selecciona una cancha</option>
             @foreach($canchasArray as $cancha)
-                <option value="{{ $cancha['id'] }}">{{ $cancha['nombre'] }}</option>
+            <option value="{{ $cancha['id'] }}">{{ $cancha['nombre'] }}</option>
             @endforeach
         </select>
     </div>
@@ -59,7 +59,7 @@
         <select name="id_entrenador" id="id_entrenador" class="form-select" required>
             <option value="" disabled selected>Selecciona un entrenador</option>
             @foreach($entrenadoresArray as $entrenador)
-                <option value="{{ $entrenador['id'] }}">{{ $entrenador['nombre'] }}</option>
+            <option value="{{ $entrenador['id'] }}">{{ $entrenador['nombre'] }}</option>
             @endforeach
         </select>
     </div>

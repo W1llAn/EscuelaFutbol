@@ -60,6 +60,16 @@
 
             <h1 class="text-center mb-4">Jugadores con Categoria</h1>
 
+            <!-- Filtro y búsqueda -->
+            <div class="row mb-3">
+
+                <div class="col-md-6">
+                    <!-- Búsqueda por nombre de jugador -->
+                    <label for="buscarJugador" class="form-label">Buscar Jugador</label>
+                    <input type="text" id="buscarJugador" class="form-control" placeholder="Buscar por nombre...">
+                </div>
+            </div>
+
             <!-- Tabla de jugador por categoria -->
             <div class="table-responsive">
                 <table class="table table-hover table-bordered align-middle">
@@ -69,9 +79,9 @@
                             <th>Categoria</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="tablaJugadores">
                         @foreach($jugadorCategoriaArray as $jugador)
-                        <tr>
+                        <tr data-categoria="{{ $jugador['id'] }}" data-nombre="{{ $jugador['jugador'] }}">
                             <td>{{ $jugador['jugador'] }}</td>
                             <td>{{ $jugador['categoria'] }}</td>
                         </tr>
@@ -105,7 +115,7 @@
             </div>
 
             <a href="javascript:void(0)" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#asignarJugadorModal">
-            Asignar Jugador a Categoría
+                Asignar Jugador a Categoría
             </a>
 
         </div>
@@ -235,6 +245,39 @@
         // Mostrar el modal
         const modal = new bootstrap.Modal(document.getElementById('editarCategoriaModal'));
         modal.show();
+    }
+
+    // Filtrar jugadores por nombre y categoría
+    document.getElementById('filtroCategoria').addEventListener('change', function() {
+        filtrarJugadores();
+    });
+
+    document.getElementById('buscarJugador').addEventListener('input', function() {
+        filtrarJugadores();
+    });
+
+    function filtrarJugadores() {
+        const categoriaSeleccionada = document.getElementById('filtroCategoria').value;
+        const buscarJugador = document.getElementById('buscarJugador').value.toLowerCase();
+
+        const filas = document.querySelectorAll('#tablaJugadores tr');
+
+        filas.forEach(function(fila) {
+            const categoria = fila.getAttribute('data-categoria');
+            const nombreJugador = fila.getAttribute('data-nombre').toLowerCase();
+
+            let mostrar = true;
+
+            if (categoriaSeleccionada && categoria !== categoriaSeleccionada) {
+                mostrar = false;
+            }
+
+            if (buscarJugador && !nombreJugador.includes(buscarJugador)) {
+                mostrar = false;
+            }
+
+            fila.style.display = mostrar ? '' : 'none';
+        });
     }
 </script>
 @endsection

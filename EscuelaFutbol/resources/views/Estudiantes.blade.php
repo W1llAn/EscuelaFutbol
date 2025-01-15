@@ -40,6 +40,7 @@
                     <th scope="col" style="width: 15%;">Teléfono</th>
                     <th scope="col" style="width: 15%;">Edad</th>
                     <th scope="col" style="width: 10% ;">Pago</th>
+                    <th scope="col" style="width: 10% ;">Dias Retraso</th>
                     <th scope="col" colspan="2" style="width: 25%;">Acciones</th>
                 </tr>
             </thead>
@@ -79,9 +80,18 @@
             const birthDate = new Date(student.fecha_nacimiento);
             const age = calculateAge(birthDate); // Función para calcular la edad
 
+            // Calcular los días de retraso
+            const fechaPago = new Date(student.fecha_pago_mensual); // Asegúrate de que la fecha de pago esté en un formato correcto
+            const today = new Date();
+            const diasRetraso = Math.floor((today - fechaPago) / (1000 * 60 * 60 * 24)); // Convertir la diferencia a días
+
+            // Cambiar estado de pago si los días de retraso son mayores a 30
+            if (diasRetraso > 30) {
+                student.estado_pago = 'Pendiente'; // Cambiar el estado a Retrasado si son más de 30 días
+            }
 
             if (student.estado_pago === 'Pendiente') {
-                buttonClass = 'btn btn-primary  btn-sm';
+                buttonClass = 'btn btn-danger  btn-sm';
                 buttonText = 'Pendiente';
                 disabled = 'active';
 
@@ -89,10 +99,6 @@
                 buttonClass = 'btn btn-success  btn-sm';
                 buttonText = 'Pagado';
                 disabled = 'disabled';
-            } else if (student.estado_pago === 'Retrasado') {
-                buttonClass = 'btn btn-danger  btn-sm';
-                buttonText = ' Retrasado';
-                disabled = 'active';
             }
 
             // Creamos la fila de la tabla
@@ -101,11 +107,12 @@
             <td class="text-center">${student.direccion}</td>
             <td class="text-center">${student.telefono}</td>
             <td class="text-center">${age}</td>
-             <td>
-             <form action="${baseUrl}/Escuela/InscripcionesYpagos/${student.id}/Pagos" method="GET" >
+            <td>
+                <form action="${baseUrl}/Escuela/InscripcionesYpagos/${student.id}/Pagos" method="GET" >
                 <button type="submit" class="${buttonClass}" ${disabled}>${buttonText}</button>
                 </form>
             </td>
+            <td class="text-center">${diasRetraso > 30 ? `${diasRetraso-30} días` : '-'}</td>
             <td>
                 <form action="${baseUrl}/Escuela/InscripcionesYpagos/${student.id} eliminar" method="POST">
                     @method('DELETE')

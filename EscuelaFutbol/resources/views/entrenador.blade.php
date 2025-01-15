@@ -25,15 +25,14 @@
                             <td>{{ $entrenador['nombre'] }}</td>
                             <td class="d-flex justify-content-evenly">
                                 <!-- Botón Editar -->
-                                <button 
-                                    class="btn btn-warning btn-sm" 
+                                <button
+                                    class="btn btn-warning btn-sm"
                                     onclick="mostrarModalEditar(
                                         {{ $entrenador['id'] }}, 
                                         '{{ $entrenador['nombre'] }}'
                                     )"
-                                    data-bs-toggle="modal" 
-                                    data-bs-target="#modalEditar"
-                                >
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalEditar">
                                     <i class="bi bi-pencil"></i> Editar
                                 </button>
                                 <!-- Botón Eliminar -->

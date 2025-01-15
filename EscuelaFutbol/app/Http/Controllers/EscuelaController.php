@@ -20,29 +20,31 @@ class EscuelaController extends Controller
         // Realizar la solicitud GET para el primer gráfico
         $actionPrimerGrafico = 'obtenerPrimerGrafico';
         $responsePrimerGrafico = Http::get($url . '?action=' . $actionPrimerGrafico);
-
         // Realizar la solicitud GET para el segundo gráfico
         $actionSegundoGrafico = 'obtenerSegundoGrafico';
         $responseSegundoGrafico = Http::get($url . '?action=' . $actionSegundoGrafico);
+        // Realizar la solicitud GET para el tercer grafico
+        $actionTercerGrafico = 'obtenerTercerGrafico';
+        $responseTercerGrafico = Http::get($url . '?action=' . $actionTercerGrafico);
+        // Realizar la solicitud GET para el cuarto grafico
+        $actionCuartoGrafico = 'obtenerCuartoGrafico';
+        $responseCuartoGrafico = Http::get($url . '?action=' . $actionCuartoGrafico);
 
-        // Comprobar si la solicitud para ambos gráficos fue exitosa
-        if ($responsePrimerGrafico->successful() && $responseSegundoGrafico->successful()) {
-            // Decodificar las respuestas JSON
-            $dataPrimerGrafico = $responsePrimerGrafico->json();
-            $dataSegundoGrafico = $responseSegundoGrafico->json();
 
-            // Pasar los datos a la vista
-            return view('Inicio', [
-                'primerGrafico' => $dataPrimerGrafico,
-                'segundoGrafico' => $dataSegundoGrafico
-            ]);
-        } else {
-            // Si hubo un error con alguna de las solicitudes
-            return response()->json(['error' => 'Error al obtener los datos'], 500);
-        }
+        // Decodificar las respuestas JSON
+        $dataPrimerGrafico = $responsePrimerGrafico->json();
+        $dataSegundoGrafico = $responseSegundoGrafico->json();
+        $dataTercerGrafico = $responseTercerGrafico->json();
+        $dataCuartoGrafico = $responseCuartoGrafico->json();
+
+        // Pasar los datos a la vista
+        return view('Inicio', [
+            'primerGrafico' => $dataPrimerGrafico,
+            'segundoGrafico' => $dataSegundoGrafico,
+            'tercerGrafico' => $dataTercerGrafico,
+            'cuartoGrafico' => $dataCuartoGrafico
+        ]);
     }
-
-
 
     /**
      * Show the form for creating a new resource.
@@ -114,23 +116,24 @@ class EscuelaController extends Controller
         return view('crearCategoria', compact('entrenadoresArray', 'canchasArray'));
     }
 
-    public function crearEntrenador(){
+    public function crearEntrenador()
+    {
         return view('crearEntrenador');
     }
 
     public function guardarEntrenador(Request $request)
     {
-         // Validar los datos del formulario
-         $request->validate([
+        // Validar los datos del formulario
+        $request->validate([
             'nombre' => 'required|string|max:255',
         ]);
- 
+
         $data = $request->only([
             'nombre'
         ]);
-    
+
         $response = Http::post(static::$api . '?action=entrenador', $data);
-  
+
         if ($response->successful()) {
             return redirect('/Escuela/entrenadores')->with('success', 'Categoría creada con éxito');
         } else {
@@ -144,60 +147,65 @@ class EscuelaController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:255',
         ]);
-    
+
         $data = [
             'id' => $id,
             'nombre' => $request->nombre,
         ];
-    
+
         $response = Http::put(static::$api . '?action=entrenador', $data);
-    
+
         if ($response->successful()) {
             return redirect('/Escuela/entrenadores')->with('success', 'Entrenador actualizado con éxito');
         } else {
             return back()->with('error', 'Error al actualizar el entrenador');
         }
     }
-    
+
 
     public function asignarJugadorACategoria(Request $request)
     {
         $request->validate([
             'jugador' => 'required|integer',
             'categoria' => 'required|integer',
-        ]);        
-    
+        ]);
+
         $data = $request->only(['jugador', 'categoria']);
-    
+
         $response = Http::asForm()->post(static::$api . '?action=jugadores', $data);
-    
+
         if ($response->successful()) {
             return redirect('/Escuela/categorias')->with('success', 'Jugador asignado con éxito');
         } else {
             dd($response->body());
         }
     }
-    
-    
+
+
 
     public function guardarCategoria(Request $request)
     {
         // Validar los datos del formulario
         $request->validate([
             'nombre' => 'required|string|max:255',
-            'dia_entrenamiento' => 'required|array|min:1', 
+            'dia_entrenamiento' => 'required|array|min:1',
             'hora_inicio' => 'required|date_format:H:i',
             'hora_fin' => 'required|date_format:H:i',
             'id_cancha' => 'required|integer',
             'id_entrenador' => 'required|integer',
         ]);
- 
+
         $data = $request->only([
-            'nombre', 'dia_entrenamiento', 'hora_inicio', 'hora_fin', 'id_cancha', 'id_entrenador'
+            'nombre',
+            'dia_entrenamiento',
+            'hora_inicio',
+            'hora_fin',
+            'id_cancha',
+            'id_entrenador'
         ]);
-    
+
         $response = Http::post(static::$api . '?action=categorias', $data);
-  
+
         if ($response->successful()) {
             return redirect('/Escuela/categorias')->with('success', 'Categoría creada con éxito');
         } else {
@@ -210,42 +218,42 @@ class EscuelaController extends Controller
     {
         // Obtiene la categoría específica
         $categoria = Http::GET(static::$api . '?action=categorias&id=' . $id)->json();
-    
+
         // Obtiene entrenadores y canchas para llenar los selects
         $entrenadores = Http::GET(static::$api . '?action=entrenadores');
         $entrenadoresArray = $entrenadores->json();
-    
+
         $canchas = Http::GET(static::$api . '?action=canchas');
         $canchasArray = $canchas->json();
-    
+
         return view('editarCategoria', compact('categoria', 'entrenadoresArray', 'canchasArray'));
-    }    
+    }
 
     public function actualizarCategoria(Request $request, $id)
     {
-       
+
         $request->validate([
             'nombre' => 'required|string|max:255',
             'dia_entrenamiento' => 'required|array',
             'hora_inicio' => 'required|date_format:H:i',
             'hora_fin' => 'required|date_format:H:i',
         ]);
-    
+
         $data = $request->only(['nombre', 'dia_entrenamiento', 'hora_inicio', 'hora_fin']);
         $data['id'] = $id;
-    
+
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
         ])->put(static::$api . '?action=categorias', $data);
-    
+
         if ($response->successful()) {
             return redirect('/Escuela/categorias')->with('success', 'Categoría actualizada con éxito');
         } else {
             return back()->with('error', 'Error al actualizar la categoría');
         }
     }
-    
-    
+
+
     /**
      * Store a newly created resource in storage.
      */
@@ -409,7 +417,7 @@ class EscuelaController extends Controller
         $response = Http::delete(static::$api . '?action=entrenador', [
             'id' => $id,
         ]);
-    
+
         if ($response->successful()) {
             return redirect('/Escuela/entrenadores')->with('success', 'Entrenador eliminado con éxito');
         } else {

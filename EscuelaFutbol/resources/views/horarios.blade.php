@@ -188,6 +188,8 @@
 <!-- Script para manejar el modal -->
 <script>
     function mostrarModalEditar(id, nombre, dias, horaInicio, horaFin, cancha, entrenador) {
+        console.log(document.getElementById('editarHorarioModal'));
+
         // Rellenar los campos del modal con la información del horario
         document.getElementById('categoriaNombre').value = nombre;
         document.getElementById('idCat').value = id;
