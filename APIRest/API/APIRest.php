@@ -1,6 +1,7 @@
 <?php
 include_once "../models/metodosHorarios.php";
 include_once "../models/metodosDashboard.php";
+include_once "../models/Inscripcion.php";
 
 #OBTIENE EL MÉTODO 
 $opc = $_SERVER['REQUEST_METHOD'];
@@ -32,7 +33,21 @@ switch ($opc) {
                 $resultado = metodosDashboard::obtenerCuartoGrafico();
                 echo json_encode($resultado);
                 break;
-
+            case 'obtener':
+                Inscripcion::obtener();
+                break;
+                case 'obtenerId':
+                    Inscripcion::obtenerId();
+                    break;
+            case 'obtenerNombre':
+                Inscripcion::obtenerNombre();
+                break;
+            case 'entrenadores':
+                metodosHorarios::obtenerEntrenadores();
+                break;
+            case 'canchas':
+                metodosHorarios::obtenerCanchas();
+                break;
             default:
                 # code...
                 break;
@@ -41,8 +56,10 @@ switch ($opc) {
         #CREAR
     case 'POST':
         switch ($action) {
-            case 'horario':
-                metodosHorarios::crearHorario();
+            case '':
+                break;
+            case 'inscripcion':
+                Inscripcion::guardar();
                 break;
 
             default:
@@ -56,7 +73,12 @@ switch ($opc) {
             case 'horario':
                 metodosHorarios::editarHorario();
                 break;
-
+            case 'editarEstudiante':
+                Inscripcion::editar();
+                break;
+                case 'editarEstudiantePago':
+                    Inscripcion::editarEstudiantePago();
+                    break;
             default:
                 # code...
                 break;
@@ -68,7 +90,9 @@ switch ($opc) {
             case 'horario':
                 metodosHorarios::eliminarHorario();
                 break;
-
+            case 'eliminarInscripcionId':
+                Inscripcion::borrar();
+                break;
             default:
                 # code...
                 break;
