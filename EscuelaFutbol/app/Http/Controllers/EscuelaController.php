@@ -48,7 +48,10 @@ class EscuelaController extends Controller
         $categorias = Http::GET(static::$api . '?action=categorias');
         $categoriasArray = $categorias->json();
 
-        return view('categorias', compact('categoriasArray'));
+        $jugadorCategoria = Http::GET(static::$api . '?action=jugadores');
+        $jugadorCategoriaArray = $jugadorCategoria->json();
+
+        return view('categorias', compact('categoriasArray', 'jugadorCategoriaArray'));
     }
 
     public function crearCategoria()
@@ -106,10 +109,10 @@ class EscuelaController extends Controller
 
     public function actualizarCategoria(Request $request, $id)
     {
-        // Validar los datos antes de enviarlos
+       
         $request->validate([
             'nombre' => 'required|string|max:255',
-            'dia_entrenamiento' => 'required|array', // Validar como un array
+            'dia_entrenamiento' => 'required|array',
             'hora_inicio' => 'required|date_format:H:i',
             'hora_fin' => 'required|date_format:H:i',
         ]);

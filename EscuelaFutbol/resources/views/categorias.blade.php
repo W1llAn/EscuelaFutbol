@@ -57,6 +57,29 @@
                     </tbody>
                 </table>
             </div>
+
+            <h1 class="text-center mb-4">Jugadores con Categoria</h1>
+
+            <!-- Tabla de jugador por categoria -->
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Categoria</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($jugadorCategoriaArray as $jugador)
+                        <tr>
+                            <td>{{ $jugador['jugador'] }}</td>
+                            <td>{{ $jugador['categoria'] }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
         </div>
     </div>
 </div>
