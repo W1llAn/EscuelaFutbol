@@ -24,6 +24,14 @@ switch ($opc) {
                 $resultado = metodosDashboard::obtenerSegundoGrafico();
                 echo json_encode($resultado);
                 break;
+            case 'obtenerTercerGrafico':
+                $resultado = metodosDashboard::obtenerTercerGrafico();
+                echo json_encode($resultado);
+                break;
+            case 'obtenerCuartoGrafico':
+                $resultado = metodosDashboard::obtenerCuartoGrafico();
+                echo json_encode($resultado);
+                break;
 
             default:
                 # code...

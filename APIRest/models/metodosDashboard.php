@@ -60,4 +60,51 @@ class metodosDashboard
 
         return $datos;
     }
+    public static function obtenerTercerGrafico()
+    {
+        $con = Conexion::conectar(); // Obtén la conexión a la base de datos
+
+        try {
+            $sql = "
+            SELECT 
+                DATE_FORMAT(fecha_pago_mensual, '%Y-%m') AS mes, -- Extrae el mes y año del pago
+                SUM(pago_mensual) AS total_pago                 -- Suma los pagos del mes
+            FROM jugadores
+            WHERE estado_pago = 'Pagado'                      -- Considera solo pagos realizados
+            GROUP BY DATE_FORMAT(fecha_pago_mensual, '%Y-%m') -- Agrupa por mes
+            ORDER BY mes ASC;                                 -- Ordena por fecha ascendente
+        ";
+
+            $stmt = $con->prepare($sql);
+            $stmt->execute();
+            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return $resultados; // Devuelve los resultados como un arreglo asociativo
+        } catch (PDOException $e) {
+            die("Error en la consulta: " . $e->getMessage());
+        }
+    }
+    public static function obtenerCuartoGrafico()
+    {
+        $con = Conexion::conectar(); // Obtén la conexión a la base de datos
+        try {
+            $sql = "
+            SELECT 
+            estado_pago,                -- Tipo de estado de pago
+            COUNT(*) AS total_jugadores -- Cuenta el número de jugadores por estado de pago
+            FROM jugadores
+            GROUP BY estado_pago           -- Agrupa por estado de pago
+            ORDER BY total_jugadores DESC; -- Ordena por el total de jugadores en orden descendente
+        ";
+
+            $stmt = $con->prepare($sql);
+            $stmt->execute();
+            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return $resultados; // Devuelve los resultados como un arreglo asociativo
+        } catch (PDOException $e) {
+            die("Error en la consulta: " . $e->getMessage());
+        }
+        
+    }
 }
