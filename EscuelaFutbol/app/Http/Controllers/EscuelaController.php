@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Http;
 
 class EscuelaController extends Controller
 {
-    //protected static $Api = 'http://localhost:8087/ApiEscuela/API/APIRest.php';
+    protected static $Api = 'http://localhost/APIRest/API/APIRest.php';
     /**
      * Display a listing of the resource.
      */
@@ -15,7 +15,7 @@ class EscuelaController extends Controller
     public function index()
     {
         // URL de tu API REST
-        $url = 'http://localhost:8080/MisProyectos/EscuelaFutbol-feature-home/APIRest/API/APIRest.php';
+        $url = 'http://localhost/APIRest/API/APIRest.php';
 
         // Realizar la solicitud GET para el primer gráfico
         $actionPrimerGrafico = 'obtenerPrimerGrafico';
@@ -166,20 +166,19 @@ class EscuelaController extends Controller
 
     public function updatePagos(Request $request, string $id)
     {
-       
-            $cantidad = $request->input('cantidad');
-            $fechaPago = $request->input('fechaPago');
+
+        $cantidad = $request->input('cantidad');
+        $fechaPago = $request->input('fechaPago');
 
 
-            $data = [
-                'cantidad' => $cantidad,
-                'fechaPago' => $fechaPago,
-                'id' => $id
-            ];
-            $response = Http::asForm()->put(static::$Api . "?action=editarEstudiantePago", $data);
+        $data = [
+            'cantidad' => $cantidad,
+            'fechaPago' => $fechaPago,
+            'id' => $id
+        ];
+        $response = Http::asForm()->put(static::$Api . "?action=editarEstudiantePago", $data);
 
-            return redirect('/Escuela/InscripcionesYpagos');
-        
+        return redirect('/Escuela/InscripcionesYpagos');
     }
 
     /**
