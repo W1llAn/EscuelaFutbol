@@ -13,8 +13,8 @@ Route::delete("/Escuela/horarios/{id} {horario}", [EscuelaController::class, 'de
 Route::put("/Escuela/horarios/{id} {horario} /edit", [EscuelaController::class, 'update']);
 
 //rutas para categorias
-Route::get('/Escuela/categorias', [EscuelaController::class, 'categorias'])->name('categorias.index');
-Route::get('/Escuela/categorias/create', [EscuelaController::class, 'crearCategoria'])->name('categorias.create');
-Route::get('/Escuela/categorias/{id}/edit', [EscuelaController::class, 'editarCategoria'])->name('categorias.edit');
-Route::put('/Escuela/categorias/{id}', [EscuelaController::class, 'updateCategoria'])->name('categorias.update');
-Route::delete('/Escuela/categorias/{id}', [EscuelaController::class, 'destroyCategoria'])->name('categorias.destroy');
+Route::get('/Escuela/categorias', [EscuelaController::class, 'categorias'])->name('categorias');
+Route::get('/Escuela/categorias/create', [EscuelaController::class, 'crearCategoria'])->name('crearCategoria');
+Route::get('/Escuela/categorias/{id}/edit', [EscuelaController::class, 'editarCategoria'])->name('editarCategoria');
+Route::put('/Escuela/categorias/{id}', [EscuelaController::class, 'actualizarCategoria'])->name('categorias');
+Route::delete('/Escuela/categorias/{id}', [EscuelaController::class, 'eliminarCategoria'])->name('categorias');

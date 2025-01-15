@@ -1,9 +1,9 @@
-@extends('layouts.app')
-
+@extends('template')
+@section('title','Categorias')
 @section('content')
 <div class="container">
     <h1 class="my-4">Categorías</h1>
-    <a href="{{ route('categorias.create') }}" class="btn btn-primary mb-3">Crear Nueva Categoría</a>
+    <a href="{{ route('crearCategoria') }}" class="btn btn-primary mb-3">Crear Nueva Categoría</a>
 
     <table class="table table-bordered">
         <thead class="thead-dark">
@@ -18,7 +18,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($categorias as $categoria)
+            @foreach ($categoriasArray as $categoria)
                 <tr>
                     <td>{{ $categoria['nombre'] }}</td>
                     <td>{{ $categoria['dia_entrenamiento'] }}</td>
@@ -27,12 +27,8 @@
                     <td>{{ $categoria['cancha'] }}</td>
                     <td>{{ $categoria['entrenador'] }}</td>
                     <td>
-                        <a href="{{ route('categorias.edit', $categoria['id']) }}" class="btn btn-warning btn-sm">Editar</a>
-                        <form action="{{ route('categorias.destroy', $categoria['id']) }}" method="POST" class="d-inline">
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn btn-danger btn-sm" type="submit">Eliminar</button>
-                        </form>
+                        <a href="{{ route('editarCategoria', $categoria['id']) }}" class="btn btn-warning btn-sm">Editar</a>
+
                     </td>
                 </tr>
             @endforeach

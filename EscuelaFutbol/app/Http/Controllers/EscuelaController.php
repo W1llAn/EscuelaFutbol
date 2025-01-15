@@ -48,7 +48,7 @@ class EscuelaController extends Controller
         $categorias = Http::GET(static::$api . '?action=categorias');
         $categoriasArray = $categorias->json();
 
-        return view('categorias.index', compact('categoriasArray'));
+        return view('categorias', compact('categoriasArray'));
     }
 
     public function crearCategoria()
@@ -60,7 +60,7 @@ class EscuelaController extends Controller
         $canchas = Http::GET(static::$api . '?action=canchas');
         $canchasArray = $canchas->json();
 
-        return view('categorias.create', compact('entrenadoresArray', 'canchasArray'));
+        return view('crearCategoria', compact('entrenadoresArray', 'canchasArray'));
     }
 
     public function guardarCategoria(Request $request)
@@ -71,8 +71,7 @@ class EscuelaController extends Controller
 
         $response = Http::post(static::$api . '?action=categorias', $data);
 
-        return redirect()->route('categorias.index')
-                         ->with('success', 'Categoría creada correctamente.');
+        return redirect('/Escuela/Equipos');
     }
 
     public function editarCategoria($id)
@@ -87,7 +86,7 @@ class EscuelaController extends Controller
         $canchas = Http::GET(static::$api . '?action=canchas');
         $canchasArray = $canchas->json();
 
-        return view('categorias.edit', compact('categoria', 'entrenadoresArray', 'canchasArray'));
+        return view('editarCategoria', compact('categoria', 'entrenadoresArray', 'canchasArray'));
     }
 
     public function actualizarCategoria(Request $request, $id)
@@ -99,8 +98,7 @@ class EscuelaController extends Controller
         $data['id'] = $id;
         Http::asForm()->put(static::$api . '?action=categorias', $data);
 
-        return redirect()->route('categorias.index')
-                         ->with('success', 'Categoría actualizada correctamente.');
+        return redirect('/Escuela/Equipos');
     }
 
 
@@ -181,7 +179,6 @@ class EscuelaController extends Controller
     {
         Http::delete(static::$api . '?action=categorias&id=' . $id);
 
-        return redirect()->route('categorias.index')
-                         ->with('success', 'Categoría eliminada correctamente.');
+        return redirect('/Escuela/Equipos');
     }
 }
