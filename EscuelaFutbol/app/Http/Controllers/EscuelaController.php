@@ -127,19 +127,17 @@ class EscuelaController extends Controller
     public function asignarJugadorACategoria(Request $request)
     {
         $request->validate([
-            'jugador' => 'required|exists:jugadores,id',
-            'categoria' => 'required|exists:categorias,id',
-        ]);
+            'jugador' => 'required|integer',
+            'categoria' => 'required|integer',
+        ]);        
     
         $data = $request->only(['jugador', 'categoria']);
     
-        // Intentar con asForm para enviar datos como un formulario
         $response = Http::asForm()->post(static::$api . '?action=jugadores', $data);
     
         if ($response->successful()) {
             return redirect('/Escuela/categorias')->with('success', 'Jugador asignado con éxito');
         } else {
-            // Verificar la respuesta para obtener más detalles del error
             dd($response->body());
         }
     }
