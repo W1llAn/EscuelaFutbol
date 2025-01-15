@@ -20,7 +20,7 @@
             <li><a href="{{ url('Escuela') }} " class="{{Request::is('Escuela')?'active':''}}">Inicio</a></li>
             <li><a href="{{url('Escuela/create')}}" class="{{Request::is('Escuela/create')?'active':''}}">Inscripciones</a></li>
             <li><a href="{{url('Escuela/categorias')}}" class="{{Request::is('Escuela/Equipos')?'Active':''}}">Equipos</a></li>
-            <li><a href="">Entrenadores</a></li>
+            <li><a href="{{url('Escuela/entrenadores')}}" class="{{Request::is('Escuela/entrenadores')?'active':''}}">Entrenadores</a></li>
             <li><a href="{{url('Escuela/horarios')}}" class="{{Request::is('Escuela/horarios')?'active':''}}">Horarios</a></li>
         </ul>
 

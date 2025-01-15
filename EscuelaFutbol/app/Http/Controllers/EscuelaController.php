@@ -63,7 +63,7 @@ class EscuelaController extends Controller
         $entrenador = Http::GET(static::$api . '?action=entrenador');
         $entrenadorArray = $entrenador->json();
 
-        return view('entrenador', compact('entrendorArray'));
+        return view('entrenador', compact('entrenadorArray'));
     }
 
     public function crearCategoria()
@@ -77,6 +77,52 @@ class EscuelaController extends Controller
 
         return view('crearCategoria', compact('entrenadoresArray', 'canchasArray'));
     }
+
+    public function crearEntrenador(){
+        return view('crearEntrenador');
+    }
+
+    public function guardarEntrenador(Request $request)
+    {
+         // Validar los datos del formulario
+         $request->validate([
+            'nombre' => 'required|string|max:255',
+        ]);
+ 
+        $data = $request->only([
+            'nombre'
+        ]);
+    
+        $response = Http::post(static::$api . '?action=entrenador', $data);
+  
+        if ($response->successful()) {
+            return redirect('/Escuela/entrenadores')->with('success', 'Categoría creada con éxito');
+        } else {
+            // Manejar el error de forma adecuada
+            return back()->with('error', 'Error al crear la categoría');
+        }
+    }
+
+    public function actualizarEntrenador(Request $request, $id)
+    {
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+        ]);
+    
+        $data = [
+            'id' => $id,
+            'nombre' => $request->nombre,
+        ];
+    
+        $response = Http::put(static::$api . '?action=entrenador', $data);
+    
+        if ($response->successful()) {
+            return redirect('/Escuela/entrenadores')->with('success', 'Entrenador actualizado con éxito');
+        } else {
+            return back()->with('error', 'Error al actualizar el entrenador');
+        }
+    }
+    
 
     public function asignarJugadorACategoria(Request $request)
     {
@@ -245,4 +291,18 @@ class EscuelaController extends Controller
 
         return redirect('/Escuela/categorias');
     }
+
+    public function eliminarEntrenador($id)
+    {
+        $response = Http::delete(static::$api . '?action=entrenador', [
+            'id' => $id,
+        ]);
+    
+        if ($response->successful()) {
+            return redirect('/Escuela/entrenadores')->with('success', 'Entrenador eliminado con éxito');
+        } else {
+            return back()->with('error', 'Error al eliminar el entrenador');
+        }
+    }
+    
 }
