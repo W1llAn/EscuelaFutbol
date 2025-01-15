@@ -10,13 +10,13 @@ nav{
     height: auto;
     background: #224d85;
     padding: 10px;
-    color: #eee; 
-   
+    color: #eee;
+
 }
 ul{
     position: relative;
     margin: auto;
-    width: 50%;
+    width: 70%;
     text-align: center;
 }
 nav ul li{
@@ -48,7 +48,7 @@ footer{
     margin-top: 30px;
     padding: 10px;
 }
-.p{ 
+.p{
     color: #004e4e;
     font-weight: bold;
 }
@@ -66,3 +66,8 @@ nav a.active {
     text-decoration: underline;
     font-weight: bold;
 }
+.fade {
+    transition: opacity 1s ease-out;
+    opacity: 0;
+}
+
