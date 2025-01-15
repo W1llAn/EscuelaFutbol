@@ -65,13 +65,31 @@ class EscuelaController extends Controller
 
     public function guardarCategoria(Request $request)
     {
+        // Validar los datos del formulario
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'dia_entrenamiento' => 'required|array|min:1',  // Asegurarse de que se envíen días de entrenamiento
+            'hora_inicio' => 'required|date_format:H:i',
+            'hora_fin' => 'required|date_format:H:i',
+            'id_cancha' => 'required|integer',
+            'id_entrenador' => 'required|integer',
+        ]);
+    
+        // Recuperar los datos del formulario
         $data = $request->only([
             'nombre', 'dia_entrenamiento', 'hora_inicio', 'hora_fin', 'id_cancha', 'id_entrenador'
         ]);
-
+    
+    
         $response = Http::post(static::$api . '?action=categorias', $data);
-
-        return redirect('/Escuela/Equipos');
+    
+        // Verifica si la respuesta fue exitosa
+        if ($response->successful()) {
+            return redirect('/Escuela/categorias')->with('success', 'Categoría creada con éxito');
+        } else {
+            // Manejar el error de forma adecuada
+            return back()->with('error', 'Error al crear la categoría');
+        }
     }
 
     public function editarCategoria($id)
@@ -98,7 +116,7 @@ class EscuelaController extends Controller
         $data['id'] = $id;
         Http::asForm()->put(static::$api . '?action=categorias', $data);
 
-        return redirect('/Escuela/Equipos');
+        return redirect('/Escuela/categorias');
     }
 
 
@@ -179,6 +197,6 @@ class EscuelaController extends Controller
     {
         Http::delete(static::$api . '?action=categorias&id=' . $id);
 
-        return redirect('/Escuela/Equipos');
+        return redirect('/Escuela/categorias');
     }
 }
