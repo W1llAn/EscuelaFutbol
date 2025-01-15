@@ -80,6 +80,30 @@
                 </table>
             </div>
 
+            <h1 class="text-center mb-4">Jugadores sin Categoria</h1>
+
+            <!-- Tabla de jugador sin categoria -->
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Direccion</th>
+                            <th>Telefono</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($jugadroSinCategoriaArray as $jugadores)
+                        <tr>
+                            <td>{{ $jugadores['nombre'] }}</td>
+                            <td>{{ $jugadores['direccion'] }}</td>
+                            <td>{{ $jugadores['telefono'] }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
         </div>
     </div>
 </div>

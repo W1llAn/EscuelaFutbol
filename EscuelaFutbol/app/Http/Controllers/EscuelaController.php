@@ -51,7 +51,10 @@ class EscuelaController extends Controller
         $jugadorCategoria = Http::GET(static::$api . '?action=jugadores');
         $jugadorCategoriaArray = $jugadorCategoria->json();
 
-        return view('categorias', compact('categoriasArray', 'jugadorCategoriaArray'));
+        $jugadroSinCategoria = Http::GET(static::$api . '?action=jugadoresDisponibles');
+        $jugadroSinCategoriaArray = $jugadroSinCategoria->json();
+
+        return view('categorias', compact('categoriasArray', 'jugadorCategoriaArray', 'jugadroSinCategoriaArray'));
     }
 
     public function crearCategoria()
